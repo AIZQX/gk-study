@@ -297,15 +297,15 @@ prompt要描述目标（"获取""调研""了解"），不要用暗示具体手�
 
 1. **先完成Markdown稿件**：将完整报告写为标准Markdown格式，保存为 `[研究对象]_完整稿.md`（放在临时目录，交付用的正文版Markdown见「文件命名和交付」）。篇幅很长时，按章节分几个文件写，最后拼接成一个文件，避免一次输出被截断。
 2. **依赖**：无需手动安装。脚本缺少 `markdown` 库时会自动在技能目录下建立 `.venv` 并安装；PDF由本机Chrome生成，没有Chrome时退回WeasyPrint（需 `pip install weasyprint`）。
-3. **运行转换脚本**：
+3. **运行转换脚本**：下面的 `<技能目录>` 指本 SKILL.md 所在的文件夹，例如 Claude Code 中是 `~/.claude/skills/gk-study`，其他 Agent 按实际安装位置替换。
    ```bash
-   python3 ~/.claude/skills/gk-study/scripts/build_pdf.py input.md output.pdf --title "研究对象名称" --author "AIZ小朱"
+   python3 <技能目录>/scripts/build_pdf.py input.md output.pdf --title "研究对象名称" --author "AIZ小朱"
    ```
    `--title` 只填领域名（如「计算机网络」），封面标题和页眉只显示领域名。领域名8个字及以上时，封面会自动分成两行：优先在「与、和、及、的」等连接处断开，否则两行尽量等长；如果自动断行会拆开词语（如「认知神经科学研究方法」会断成「认知神经科 / 学研究方法」），就用「/」手动指定断行位置，如 `--title "认知神经科学/研究方法"`，「/」只影响封面，页眉等处显示完整名称；即使填了「XX：横纵通识报告」或「XX：领域通识报告」，脚本也会自动去掉后缀。作者署名固定为「AIZ小朱」，不要沿用 hv-analysis 的署名。
 4. 脚本会自动生成中间HTML文件（便于调试）和最终PDF。
 5. **排版自检**：抽几页渲染成图片检查排版。技能目录的虚拟环境里已装好 pypdfium2 和 pillow：
    ```bash
-   ~/.claude/skills/gk-study/.venv/bin/python3 -I -c "import pypdfium2 as p; d=p.PdfDocument('output.pdf'); d[1].render(scale=1).to_pil().save('page2.png')"
+   <技能目录>/.venv/bin/python3 -I -c "import pypdfium2 as p; d=p.PdfDocument('output.pdf'); d[1].render(scale=1).to_pil().save('page2.png')"
    ```
 
 ### 脚本内置的排版规范
